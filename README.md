@@ -1,2 +1,3 @@
-# surrealdb-helm-charts
-SurrealDB Helm Charts
+# SurrealDB Helm Charts
+
+Repository containing the SurrealDB Helm Charts

@@ -38,7 +38,8 @@ podAnnotations: {}
 
 podSecurityContext: {}
 
-securityContext: {}
+securityContext:
+  runAsUser: 65532
 
 service:
   type: ClusterIP

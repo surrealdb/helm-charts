@@ -22,10 +22,8 @@ surrealdb:
   path: memory
   # Log configuration
   log: info
-  # Root user
-  user: root
-  # Root password
-  pass: surrealdb
+  # Authentication enabled
+  auth: "true"
 
 serviceAccount:
   # Specifies whether a service account should be created

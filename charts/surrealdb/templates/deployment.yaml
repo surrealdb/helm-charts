@@ -48,10 +48,16 @@ spec:
               value: {{ .Values.surrealdb.log }}
             - name: SURREAL_BIND
               value: 0.0.0.0:{{ .Values.service.port }}
+            {{- with .Values.surrealdb.initial_user }}
             - name: SURREAL_USER
-              value: {{ .Values.surrealdb.user }}
+              value: {{ . }}
+            {{- end }}
+            {{- with .Values.surrealdb.initial_pass }}
             - name: SURREAL_PASS
-              value: {{ .Values.surrealdb.pass }}
+              value: {{ . }}
+            {{- end }}
+            - name: SURREAL_AUTH
+              value: "{{ .Values.surrealdb.auth }}"
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

@@ -18,14 +18,18 @@ args: [start]
 
 surrealdb:
   # Datastore path
+  # 
+  # * tikv example
   # path: tikv://tikv-pd:2379
   path: memory
   # Log configuration
   log: info
-  # Root user
-  user: root
-  # Root password
-  pass: surrealdb
+  # Authentication enabled
+  auth: "true"
+  # If you want to bootstrap the datastore with an initial user, use these values the first time you install the chart
+  # Remember to remove them after the first install, as they are no longer used:
+  # initial_user: ""
+  # initial_pass: ""
 
 serviceAccount:
   # Specifies whether a service account should be created

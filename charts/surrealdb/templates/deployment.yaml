@@ -47,7 +47,7 @@ spec:
             - name: SURREAL_LOG
               value: {{ .Values.surrealdb.log }}
             - name: SURREAL_BIND
-              value: 0.0.0.0:{{ .Values.service.port }}
+              value: 0.0.0.0:{{ .Values.surrealdb.port }}
             {{- with .Values.surrealdb.initial_user }}
             - name: SURREAL_USER
               value: {{ . }}
@@ -60,7 +60,7 @@ spec:
               value: "{{ .Values.surrealdb.auth }}"
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: {{ .Values.surrealdb.port }}
               protocol: TCP
           livenessProbe:
             httpGet:

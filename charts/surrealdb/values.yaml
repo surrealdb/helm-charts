@@ -18,7 +18,7 @@ args: [start]
 
 surrealdb:
   # Datastore path
-  # 
+  #
   # * tikv example
   # path: tikv://tikv-pd:2379
   path: memory
@@ -30,6 +30,7 @@ surrealdb:
   # Remember to remove them after the first install, as they are no longer used:
   # initial_user: ""
   # initial_pass: ""
+  port: 8000
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -49,6 +50,7 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 8000
+  targetPort: http
 
 ingress:
   enabled: false

@@ -1,15 +1,15 @@
 apiVersion: v2
 name: surrealdb
 type: application
-version: 0.2.0
-appVersion: 1.0.0-beta.10
+version: 0.3.0
+appVersion: 1.0.0
 description: SurrealDB is the ultimate cloud database for tomorrow's applications.
 keywords:
-- surrealdb
-- surreal
-- database
-- distributed
-- cloud
-- tikv
+  - surrealdb
+  - surreal
+  - database
+  - distributed
+  - cloud
+  - tikv
 home: https://github.com/surrealdb/surrealdb
 logoUrl: https://raw.githubusercontent.com/surrealdb/surrealdb/main/img/icon.png

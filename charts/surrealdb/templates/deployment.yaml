@@ -58,6 +58,12 @@ spec:
             {{- end }}
             - name: SURREAL_AUTH
               value: "{{ .Values.surrealdb.auth }}"
+            {{- range $key, $value := .Values.surrealdb.env }}
+            {{- if regexMatch "^SURREAL_OBJECT_" $key}}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.surrealdb.port }}

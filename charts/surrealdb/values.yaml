@@ -31,11 +31,9 @@ surrealdb:
   # initial_user: ""
   # initial_pass: ""
   port: 8000
-  # Add additional object variables to deployment
-  env:
-    # Enable the following for jwks feature
-    SURREAL_OBJECT_CACHE: "file:/data/cache"
-    SURREAL_OBJECT_STORE: "file:/data/store"
+  # Enable the following for jwks feature
+  # object_cache: "file:/data/cache"
+  # object_store: "file:/data/store"
 
 serviceAccount:
   # Specifies whether a service account should be created

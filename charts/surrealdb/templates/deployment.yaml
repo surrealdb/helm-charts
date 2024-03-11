@@ -58,6 +58,14 @@ spec:
             {{- end }}
             - name: SURREAL_AUTH
               value: "{{ .Values.surrealdb.auth }}"
+            {{- with .Values.surrealdb.object_cache }}
+            - name: SURREAL_OBJECT_CACHE
+              value: {{ . }}
+            {{- end }}
+            {{- with .Values.surrealdb.object_store }}
+            - name: SURREAL_OBJECT_STORE
+              value: {{ . }}
+            {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.surrealdb.port }}

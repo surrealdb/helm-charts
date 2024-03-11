@@ -31,6 +31,9 @@ surrealdb:
   # initial_user: ""
   # initial_pass: ""
   port: 8000
+  # Enable the following for jwks feature
+  # object_cache: "file:/data/cache"
+  # object_store: "file:/data/store"
 
 serviceAccount:
   # Specifies whether a service account should be created

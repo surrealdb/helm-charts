@@ -79,6 +79,8 @@ securityContext: {}
 #      - ALL
 
 service:
+  # -- Service annotations
+  annotations: {}
   # -- Service type
   type: ClusterIP
   # -- Service port

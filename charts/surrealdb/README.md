@@ -61,6 +61,7 @@ Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| service.annotations | object | `{}` | Service annotations |
 | service.port | int | `8000` | Service port |
 | service.targetPort | string | `"http"` | Target container port |
 | service.type | string | `"ClusterIP"` | Service type |

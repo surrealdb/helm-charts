@@ -1,0 +1,179 @@
+name: Test Charts
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "charts/**"
+
+permissions:
+  contents: read
+
+env:
+  HELM_DOCS_VERSION: "1.13.1"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-chart:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.6.3
+
+      - name: Set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.7
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.6.0
+
+      - name: Run chart-testing (lint)
+        run: ct lint --config charts/ct-lint.yaml
+
+  lint-docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      id-token: write
+    needs: lint-chart
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: install helm-docs
+        run: |
+          cd /tmp
+          wget https://github.com/norwoodj/helm-docs/releases/download/v${{env.HELM_DOCS_VERSION}}/helm-docs_${{env.HELM_DOCS_VERSION}}_Linux_x86_64.tar.gz
+          tar -xvf helm-docs_${{env.HELM_DOCS_VERSION}}_Linux_x86_64.tar.gz
+          sudo mv helm-docs /usr/local/sbin
+
+      - name: Run helm-docs
+        run: |
+          helm-docs -t README.md.gotmpl -o README.md -b for-the-badge
+
+  kubeval-chart:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      id-token: write
+    needs:
+      - lint-chart
+      - lint-docs
+    strategy:
+      matrix:
+        k8s:
+          # from https://github.com/yannh/kubernetes-json-schema
+          - v1.27.6
+          - v1.28.3
+          - v1.29.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.6.3
+
+      - name: Run helm-template
+        run: |
+          mkdir manifests
+
+          for dir in charts/*/
+          do
+              helm template "${dir}" > "manifests/$(basename $dir).yaml"
+          done
+      - name: Run kubeval
+        uses: instrumenta/kubeval-action@master
+        with:
+          files: "manifests"
+          version: ${{ matrix.k8s }}
+
+  install-chart:
+    name: install-chart
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      id-token: write
+    needs:
+      - lint-chart
+      - lint-docs
+      - kubeval-chart
+    strategy:
+      matrix:
+        k8s:
+          # from https://hub.docker.com/r/kindest/node/tags
+          - v1.27.3 # renovate: kindest
+          - v1.28.0 # renovate: kindest
+          - v1.29.2 # renovate: kindest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Create kind ${{ matrix.k8s }} cluster
+        uses: helm/kind-action@v1.8.0
+        with:
+          node_image: kindest/node:${{ matrix.k8s }}
+          version: v0.20.0
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.6.0
+
+      - name: Run chart install
+        run: ct install --config charts/ct-lint.yaml
+
+  # Catch-all required check for test matrix
+  test-success:
+    needs:
+      - lint-chart
+      - lint-docs
+      - kubeval-chart
+      - install-chart
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      id-token: write
+    timeout-minutes: 1
+    if: always()
+    steps:
+      - name: Fail for failed or cancelled lint-chart
+        if: |
+          needs.lint-chart.result == 'failure' ||
+          needs.lint-chart.result == 'cancelled'
+        run: exit 1
+      - name: Fail for failed or cancelled lint-docs
+        if: |
+          needs.lint-docs.result == 'failure' ||
+          needs.lint-docs.result == 'cancelled'
+        run: exit 1
+      - name: Fail for failed or cancelled kubeval-chart
+        if: |
+          needs.kubeval-chart.result == 'failure' ||
+          needs.kubeval-chart.result == 'cancelled'
+        run: exit 1
+      - name: Fail for failed or cancelled install-chart
+        if: |
+          needs.install-chart.result == 'failure' ||
+          needs.install-chart.result == 'cancelled'
+        run: exit 1

@@ -66,6 +66,9 @@ spec:
             - name: SURREAL_OBJECT_STORE
               value: {{ . }}
             {{- end }}
+          {{- with .Values.podEnvs | uniq }}
+              {{- toYaml . | nindent 12}}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.surrealdb.port }}

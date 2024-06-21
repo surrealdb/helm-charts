@@ -33,7 +33,7 @@ Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 | args | list | `["start"]` | Command line arguments to pass to SurrealDB |
 | nodeSelector | object | `{}` | [Node selector] |
 | podAnnotations | object | `{}` | Annotations to be added to SurrealDB pods |
-| podExtraEnvs | list | `[]` | Extra env entries added to the SurrealDB pods |
+| podExtraEnv | list | `[]` | Extra env entries added to the SurrealDB pods |
 | podSecurityContext | object | `{}` (See [values.yaml]) | Toggle and define pod-level security context. |
 | replicaCount | int | `1` | The number of SurrealDB pods to run |
 | resources | object | `{}` | Resource limits and requests |

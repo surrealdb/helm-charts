@@ -1,6 +1,6 @@
 # SurrealDB Helm Chart
 
-![Version: 0.3.3](https://img.shields.io/badge/Version-0.3.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 0.3.4](https://img.shields.io/badge/Version-0.3.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 SurrealDB is the ultimate cloud database for tomorrow's applications.
 
@@ -33,7 +33,7 @@ Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 | args | list | `["start"]` | Command line arguments to pass to SurrealDB |
 | nodeSelector | object | `{}` | [Node selector] |
 | podAnnotations | object | `{}` | Annotations to be added to SurrealDB pods |
-| podEnvs | list | `[]` | Extra env entries added to the SurrealDB pods |
+| podExtraEnvs | list | `[]` | Extra env entries added to the SurrealDB pods |
 | podSecurityContext | object | `{}` (See [values.yaml]) | Toggle and define pod-level security context. |
 | replicaCount | int | `1` | The number of SurrealDB pods to run |
 | resources | object | `{}` | Resource limits and requests |

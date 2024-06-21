@@ -57,7 +57,7 @@ serviceAccount:
   name: ""
 
 # -- Extra env entries added to the SurrealDB pods
-podEnvs:
+podExtraEnvs:
   []
   # - name: TZ
   #   value: "Europe/London"

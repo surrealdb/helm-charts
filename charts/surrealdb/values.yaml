@@ -35,10 +35,20 @@ surrealdb:
   log: info
   # -- Authentication enabled
   auth: "true"
+  # This soon be deprecated and replaced by unauthenticated value since env variable got renamed and inverses the input.
   # If you want to bootstrap the datastore with an initial user, use these values the first time you install the chart
   # Remember to remove them after the first install, as they are no longer used:
   # initial_user: ""
   # initial_pass: ""
+  unauthenticated: ""
+  # Whether unauthenticated access allowed.
+  # * example
+  # -- unauthenticated: "true"
+  # Typically used for the first start of the database when no users are yet created.
+  # This is kept empty intentionally to allow soft deprecation of auth value
+  # and support backward compatibility during a migration from 1.x to 2.x.
+  # If the value for unauthenticated not set explicitly, template fallsback
+  # to usage of inverted surrealdb.auth value where default is set.
 
   # -- SurrealDB container port
   port: 8000

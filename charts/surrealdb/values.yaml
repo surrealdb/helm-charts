@@ -41,14 +41,14 @@ surrealdb:
   # initial_user: ""
   # initial_pass: ""
   unauthenticated: ""
-  # Whether unauthenticated access allowed.
-  # * example
-  # -- unauthenticated: "true"
+  # Whether unauthenticated access is allowed.
+  # Example:
+  #   unauthenticated: "true"
   # Typically used for the first start of the database when no users are yet created.
-  # This is kept empty intentionally to allow soft deprecation of auth value
+  # This is kept empty intentionally to allow soft deprecation of the "auth" value
   # and support backward compatibility during a migration from 1.x to 2.x.
-  # If the value for unauthenticated not set explicitly, template fallsback
-  # to usage of inverted surrealdb.auth value where default is set.
+  # If the value for "unauthenticated" is not set explicitly, the value falls back
+  # to using the inverse of the "auth" value, which is set to "true".
 
   # -- SurrealDB container port
   port: 8000

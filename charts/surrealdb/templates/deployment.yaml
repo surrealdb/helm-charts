@@ -56,6 +56,8 @@ spec:
             - name: SURREAL_PASS
               value: {{ . }}
             {{- end }}
+            - name: SURREAL_AUTH
+              value: "{{ .Values.surrealdb.auth }}"
             - name: SURREAL_UNAUTHENTICATED
               value: "{{ .Values.surrealdb.unauthenticated | default (not .Values.surrealdb.auth) }}"
             {{- with .Values.surrealdb.object_cache }}

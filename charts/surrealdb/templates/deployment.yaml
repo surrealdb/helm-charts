@@ -57,7 +57,7 @@ spec:
               value: {{ . }}
             {{- end }}
             - name: SURREAL_AUTH
-              value: "{{ .Values.surrealdb.auth | default not .Values.surrealdb.unauthenticated }}"
+              value: "{{ .Values.surrealdb.auth | default (not .Values.surrealdb.unauthenticated) }}"
             - name: SURREAL_UNAUTHENTICATED
               value: "{{ .Values.surrealdb.unauthenticated }}"
             {{- with .Values.surrealdb.object_cache }}

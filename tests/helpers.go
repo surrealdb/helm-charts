@@ -16,10 +16,10 @@ import (
 // It runs helm-template to render the template at the specified path within the surrealdb chart,
 // with the specified values, and compares the output to the expected output corresponds to the specified subject.
 //
-// We do snapshot testing here, so the caller does not need to manually populated the expected template output
+// We do snapshot testing here, so the caller does not need to manually populate the expected template output
 // corresponds to the subject and the values.
 //
-// To let the test records the snapshot, set the environment variable `UPDATE_SNAPSHOT={path}/{subject}` before running the test.
+// To let the test record the snapshot, set the environment variable `UPDATE_SNAPSHOT={path}/{subject}` before running the test.
 //
 // For example, to update the snapshot for the "default" subject of the "deployment.yaml" template:
 // ```

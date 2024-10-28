@@ -41,7 +41,7 @@ surrealdb:
   # -- Enable unauthenticated access
   # Warning: Enabling it will allow any unauthenticated user to access SurrealDB!
   # Authentication is enabled by default in 2.x. This value replaces the depreacted "auth" value.
-  unauthenticated: false
+  # unauthenticated: false
   # -- DEPRECATED: Enable authentication
   # This value has been deprecated in 2.x but is kept for backward compatibility.
   # The "unauthenticated" value should now be used instead, which will be converted in 1.x deployments.

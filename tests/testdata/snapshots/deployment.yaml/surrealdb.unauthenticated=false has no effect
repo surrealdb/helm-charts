@@ -43,9 +43,9 @@ spec:
             - name: SURREAL_BIND
               value: 0.0.0.0:8000
             - name: SURREAL_AUTH
-              value: "false"
-            - name: SURREAL_UNAUTHENTICATED
               value: "true"
+            - name: SURREAL_UNAUTHENTICATED
+              value: "false"
           ports:
             - name: http
               containerPort: 8000

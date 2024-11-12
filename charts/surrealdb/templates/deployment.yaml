@@ -56,8 +56,20 @@ spec:
             - name: SURREAL_PASS
               value: {{ . }}
             {{- end }}
+            {{- $auth := "uninitialized" }}
+            {{- if hasKey .Values.surrealdb "auth" }}
+            {{- if hasKey .Values.surrealdb "unauthenticated" }}
+            {{ fail "surrealdb.auth and surrealdb.unauthenticated are mutually exclusive" }}
+            {{- else }}
+            {{- $auth = .Values.surrealdb.auth }}
+            {{- end }}
+            {{- else }}
+            {{- $auth = not .Values.surrealdb.unauthenticated }}
+            {{- end }}
             - name: SURREAL_AUTH
-              value: "{{ .Values.surrealdb.auth }}"
+              value: "{{ $auth }}"
+            - name: SURREAL_UNAUTHENTICATED
+              value: "{{ not $auth }}"
             {{- with .Values.surrealdb.object_cache }}
             - name: SURREAL_OBJECT_CACHE
               value: {{ . }}

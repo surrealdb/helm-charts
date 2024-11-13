@@ -3,6 +3,11 @@
 # Declare variables to be passed into your templates.
 
 # -- The number of SurrealDB pods to run
+#
+# Note that you usually scale this only when the backend supports it.
+# For example, if you specify volumes and volumeMounts to make this SurrealDB
+# instance stateful, you should not scale it, as it will result in two or more
+# instances writing to the same volume or working independently.
 replicaCount: 1
 
 image:
@@ -143,3 +148,9 @@ tolerations: []
 
 # -- Assign custom [affinity] rules to the deployment
 affinity: {}
+
+# Additional volumes for surrealdb pods
+volumes: []
+
+# Additional volumeMounts for the surrealdb container
+volumeMounts: []

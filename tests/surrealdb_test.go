@@ -24,4 +24,21 @@ func TestDeployment(t *testing.T) {
 			"unauthenticated": true,
 		},
 	})
+	testTemplate(t, "deployment.yaml", "volumes and volumeMounts are set", map[string]interface{}{
+		"args": []string{"start", "surrealkv:/var/lib/surrealdb"},
+		"volumeMounts": []interface{}{
+			map[string]interface{}{
+				"mountPath": "/var/lib/surrealdb",
+				"name":      "surrealdb-data",
+			},
+		},
+		"volumes": []interface{}{
+			map[string]interface{}{
+				"name": "surrealdb-data",
+				"persistentVolumeClaim": map[string]interface{}{
+					"claimName": "surrealdb-data",
+				},
+			},
+		},
+	})
 }

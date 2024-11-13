@@ -39,6 +39,8 @@ Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 | resources | object | `{}` | Resource limits and requests |
 | securityContext | object | `{}` (See [values.yaml]) | SurrealDB container-level security context |
 | tolerations | list | `[]` | [Tolerations] for use with node taints |
+| volumeMounts | list | `[]` | Additional volume mounts for SurrealDB container |
+| volumes | list | `[]` | Additional volumes for SurrealDB pod |
 
 ## SurrealDB parameters
 

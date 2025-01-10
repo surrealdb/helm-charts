@@ -1,6 +1,6 @@
 # SurrealDB Helm Chart
 
-![Version: 0.3.5](https://img.shields.io/badge/Version-0.3.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 0.3.7](https://img.shields.io/badge/Version-0.3.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 SurrealDB is the ultimate cloud database for tomorrow's applications.
 
@@ -76,6 +76,14 @@ Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 | serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
 | serviceAccount.name | string | `""` (defaults to the fullname template) | The name of the service account to use. |
+
+## Horizontal Pod Autoscaler parameters
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| horizontalPodAutoscaler.minReplicas | int | `1` | Minimum Replica Count |
+| horizontalPodAutoscaler.maxReplicas | int | `1` | Maximum Replica Count |
+| horizontalPodAutoscaler.metrics | object | `{}` | Metrics which the autoscaler reacts to. See [kubernetes autoscale docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) for metric format. |
 
 ## Ingress parameters
 

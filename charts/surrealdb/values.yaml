@@ -140,6 +140,18 @@ resources: {}
 #  requests: {}
 #  limits: {}
 
+horizontalPodAutoscaler: {}
+  # minReplicas: 1
+  # maxReplicas: 3
+  # # For more metric types see https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
+  # metrics:
+  # - type: Resource
+  #   resource:
+  #     name: cpu
+  #     target:
+  #       type: Utilization
+  #       averageUtilization: 80
+
 # -- [Node selector]
 nodeSelector: {}
 

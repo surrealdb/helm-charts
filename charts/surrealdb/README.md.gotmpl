@@ -83,6 +83,8 @@ Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 
 ## Horizontal Pod Autoscaler parameters
 
+An optional horizontal pod autoscaler that, when defined, will use metrics to scale Surrealdb pods. Note that the replicaCount variable will be ignored when the horizontal pod autoscaler is used and is replaced by the minReplicas and maxReplicas defined here. The HPA can be added or removed at anytime using `helm upgrade`.
+
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 {{- range .Values }}

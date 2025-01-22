@@ -146,7 +146,7 @@ horizontalPodAutoscaler:
   # -- Min pod replicas
   minReplicas: 1
   # -- Max pod replicas
-  maxReplicas: 3
+  maxReplicas: 1
   # -- Metrics which the autoscaler reacts to. See [kubernetes autoscale docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) for metric format.
   # @default -- `[]` (See [values.yaml])
   metrics: []

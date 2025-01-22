@@ -32,7 +32,7 @@ Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 | affinity | object | `{}` | Assign custom [affinity] rules to the deployment |
 | args | list | `["start"]` | Command line arguments to pass to SurrealDB |
 | horizontalPodAutoscaler.enabled | bool | `false` | Enable the horizontal pod autoscaler for Surrealdb pods |
-| horizontalPodAutoscaler.maxReplicas | int | `3` | Max pod replicas |
+| horizontalPodAutoscaler.maxReplicas | int | `1` | Max pod replicas |
 | horizontalPodAutoscaler.metrics | list | `[]` (See [values.yaml]) | Metrics which the autoscaler reacts to. See [kubernetes autoscale docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) for metric format. |
 | horizontalPodAutoscaler.minReplicas | int | `1` | Min pod replicas |
 | nodeSelector | object | `{}` | [Node selector] |
@@ -87,7 +87,7 @@ An optional horizontal pod autoscaler that, when defined, will use metrics to sc
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | horizontalPodAutoscaler.enabled | bool | `false` | Enable the horizontal pod autoscaler for Surrealdb pods |
-| horizontalPodAutoscaler.maxReplicas | int | `3` | Max pod replicas |
+| horizontalPodAutoscaler.maxReplicas | int | `1` | Max pod replicas |
 | horizontalPodAutoscaler.metrics | list | `[]` (See [values.yaml]) | Metrics which the autoscaler reacts to. See [kubernetes autoscale docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) for metric format. |
 | horizontalPodAutoscaler.minReplicas | int | `1` | Min pod replicas |
 

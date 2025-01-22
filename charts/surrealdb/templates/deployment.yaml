@@ -5,8 +5,8 @@ metadata:
   labels:
     {{- include "surrealdb.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.horizontalPodAutoscaler }}
-  replicas: {{ .Values.replicaCount }}
+  {{- if not .Values.horizontalPodAutoscaler.enabled }}
+  replicas: {{ .Values.replicaCount | default 1 }}
   {{- end }}
   selector:
     matchLabels:

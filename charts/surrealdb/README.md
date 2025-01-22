@@ -31,11 +31,15 @@ Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Assign custom [affinity] rules to the deployment |
 | args | list | `["start"]` | Command line arguments to pass to SurrealDB |
+| horizontalPodAutoscaler.enabled | bool | `false` | Enable the horizontal pod autoscaler for Surrealdb pods |
+| horizontalPodAutoscaler.maxReplicas | int | `3` | Max pod replicas |
+| horizontalPodAutoscaler.metrics | list | `[]` (See [values.yaml]) | Metrics which the autoscaler reacts to. See [kubernetes autoscale docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) for metric format. |
+| horizontalPodAutoscaler.minReplicas | int | `1` | Min pod replicas |
 | nodeSelector | object | `{}` | [Node selector] |
 | podAnnotations | object | `{}` | Annotations to be added to SurrealDB pods |
 | podExtraEnv | list | `[]` | Extra env entries added to the SurrealDB pods |
 | podSecurityContext | object | `{}` (See [values.yaml]) | Toggle and define pod-level security context. |
-| replicaCount | int | `1` | The number of SurrealDB pods to run |
+| replicaCount | int | `1` | The number of SurrealDB pods to run  Note that you usually scale this only when the backend supports it. For example, if you specify volumes and volumeMounts to make this SurrealDB instance stateful, you should not scale it, as it will result in two or more instances writing to the same volume or working independently. |
 | resources | object | `{}` | Resource limits and requests |
 | securityContext | object | `{}` (See [values.yaml]) | SurrealDB container-level security context |
 | tolerations | list | `[]` | [Tolerations] for use with node taints |
@@ -46,7 +50,6 @@ Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| surrealdb.auth | string | `"true"` | Authentication enabled |
 | surrealdb.log | string | `"info"` | Log configuration |
 | surrealdb.path | string | `"memory"` | path: tikv://tikv-pd:2379 |
 | surrealdb.port | int | `8000` | SurrealDB container port |
@@ -83,9 +86,10 @@ An optional horizontal pod autoscaler that, when defined, will use metrics to sc
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| horizontalPodAutoscaler.minReplicas | int | `1` | Minimum Replica Count |
-| horizontalPodAutoscaler.maxReplicas | int | `1` | Maximum Replica Count |
-| horizontalPodAutoscaler.metrics | object | `{}` | Metrics which the autoscaler reacts to. See [kubernetes autoscale docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) for metric format. |
+| horizontalPodAutoscaler.enabled | bool | `false` | Enable the horizontal pod autoscaler for Surrealdb pods |
+| horizontalPodAutoscaler.maxReplicas | int | `3` | Max pod replicas |
+| horizontalPodAutoscaler.metrics | list | `[]` (See [values.yaml]) | Metrics which the autoscaler reacts to. See [kubernetes autoscale docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) for metric format. |
+| horizontalPodAutoscaler.minReplicas | int | `1` | Min pod replicas |
 
 ## Ingress parameters
 

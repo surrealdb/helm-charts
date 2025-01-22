@@ -140,11 +140,16 @@ resources: {}
 #  requests: {}
 #  limits: {}
 
-horizontalPodAutoscaler: {}
-  # minReplicas: 1
-  # maxReplicas: 3
-  # # For more metric types see https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
-  # metrics:
+horizontalPodAutoscaler:
+  # -- Enable the horizontal pod autoscaler for Surrealdb pods
+  enabled: false
+  # -- Min pod replicas
+  minReplicas: 1
+  # -- Max pod replicas
+  maxReplicas: 3
+  # -- Metrics which the autoscaler reacts to. See [kubernetes autoscale docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) for metric format.
+  # @default -- `[]` (See [values.yaml])
+  metrics: []
   # - type: Resource
   #   resource:
   #     name: cpu
@@ -161,8 +166,8 @@ tolerations: []
 # -- Assign custom [affinity] rules to the deployment
 affinity: {}
 
-# Additional volumes for surrealdb pods
+# -- Additional volumes for SurrealDB pod
 volumes: []
 
-# Additional volumeMounts for the surrealdb container
+# -- Additional volume mounts for SurrealDB container
 volumeMounts: []

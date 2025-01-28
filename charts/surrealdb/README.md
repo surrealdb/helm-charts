@@ -1,6 +1,6 @@
 # SurrealDB Helm Chart
 
-![Version: 0.3.5](https://img.shields.io/badge/Version-0.3.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 0.3.7](https://img.shields.io/badge/Version-0.3.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 SurrealDB is the ultimate cloud database for tomorrow's applications.
 
@@ -31,11 +31,15 @@ Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Assign custom [affinity] rules to the deployment |
 | args | list | `["start"]` | Command line arguments to pass to SurrealDB |
+| horizontalPodAutoscaler.enabled | bool | `false` | Enable the horizontal pod autoscaler for Surrealdb pods |
+| horizontalPodAutoscaler.maxReplicas | int | `1` | Max pod replicas |
+| horizontalPodAutoscaler.metrics | list | `[]` (See [values.yaml]) | Metrics which the autoscaler reacts to. See [kubernetes autoscale docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) for metric format. |
+| horizontalPodAutoscaler.minReplicas | int | `1` | Min pod replicas |
 | nodeSelector | object | `{}` | [Node selector] |
 | podAnnotations | object | `{}` | Annotations to be added to SurrealDB pods |
 | podExtraEnv | list | `[]` | Extra env entries added to the SurrealDB pods |
 | podSecurityContext | object | `{}` (See [values.yaml]) | Toggle and define pod-level security context. |
-| replicaCount | int | `1` | The number of SurrealDB pods to run |
+| replicaCount | int | `1` | The number of SurrealDB pods to run  Note that you usually scale this only when the backend supports it. For example, if you specify volumes and volumeMounts to make this SurrealDB instance stateful, you should not scale it, as it will result in two or more instances writing to the same volume or working independently. |
 | resources | object | `{}` | Resource limits and requests |
 | securityContext | object | `{}` (See [values.yaml]) | SurrealDB container-level security context |
 | tolerations | list | `[]` | [Tolerations] for use with node taints |
@@ -46,7 +50,6 @@ Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| surrealdb.auth | string | `"true"` | Authentication enabled |
 | surrealdb.log | string | `"info"` | Log configuration |
 | surrealdb.path | string | `"memory"` | path: tikv://tikv-pd:2379 |
 | surrealdb.port | int | `8000` | SurrealDB container port |
@@ -76,6 +79,17 @@ Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 | serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
 | serviceAccount.name | string | `""` (defaults to the fullname template) | The name of the service account to use. |
+
+## Horizontal Pod Autoscaler parameters
+
+An optional horizontal pod autoscaler that, when defined, will use metrics to scale Surrealdb pods. Note that the replicaCount variable will be ignored when the horizontal pod autoscaler is used and is replaced by the minReplicas and maxReplicas defined here. The HPA can be added or removed at anytime using `helm upgrade`.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| horizontalPodAutoscaler.enabled | bool | `false` | Enable the horizontal pod autoscaler for Surrealdb pods |
+| horizontalPodAutoscaler.maxReplicas | int | `1` | Max pod replicas |
+| horizontalPodAutoscaler.metrics | list | `[]` (See [values.yaml]) | Metrics which the autoscaler reacts to. See [kubernetes autoscale docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) for metric format. |
+| horizontalPodAutoscaler.minReplicas | int | `1` | Min pod replicas |
 
 ## Ingress parameters
 

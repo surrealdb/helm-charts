@@ -1,0 +1,21 @@
+{{- if .Values.horizontalPodAutoscaler.enabled }}
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "surrealdb.fullname" . }}
+  labels:
+    {{- include "surrealdb.labels" . | nindent 4 }}
+spec:
+  {{- with .Values.horizontalPodAutoscaler }}
+  minReplicas: {{ .minReplicas | default 1 }}
+  maxReplicas: {{ .maxReplicas | default 1 }}
+  {{- end }}
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "surrealdb.fullname" . }}
+  {{- with .Values.horizontalPodAutoscaler.metrics }}
+  metrics:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}

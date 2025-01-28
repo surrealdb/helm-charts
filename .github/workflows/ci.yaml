@@ -130,6 +130,12 @@ jobs:
         with:
           version: v1.61
 
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.8.0
+        with:
+          node_image: kindest/node:v1.29.2
+          version: v0.20.0
+
       - name: Run go test
         run: go test -v ./...
 

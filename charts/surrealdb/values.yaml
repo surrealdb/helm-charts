@@ -171,3 +171,23 @@ volumes: []
 
 # -- Additional volume mounts for SurrealDB container
 volumeMounts: []
+
+# -- Persistence configuration for SurrealDB data
+persistence:
+  # -- Enable persistent storage
+  enabled: false
+  # -- Storage class name for the PVC
+  # @default -- `""` (uses default storage class)
+  storageClassName: ""
+  # -- Access modes for the PVC
+  accessModes:
+    - ReadWriteOnce
+  # -- Size of the persistent volume
+  size: 10Gi
+  # -- Annotations for the PVC
+  annotations: {}
+  # -- Selector to match an existing Persistent Volume
+  # @default -- `{}` (no selector)
+  selector: {}
+  # -- Mount path for the persistent volume
+  mountPath: /data

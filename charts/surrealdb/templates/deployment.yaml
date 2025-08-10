@@ -97,8 +97,12 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{ with .Values.volumeMounts }}
           volumeMounts:
+          {{- if .Values.persistence.enabled }}
+            - name: data
+              mountPath: {{ .Values.persistence.mountPath }}
+          {{- end }}
+          {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
       {{- with .Values.nodeSelector }}
@@ -113,7 +117,12 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.volumes}}
       volumes:
+      {{- if .Values.persistence.enabled }}
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ include "surrealdb.fullname" . }}
+      {{- end }}
+      {{- with .Values.volumes}}
         {{- toYaml . | nindent 8 }}
       {{- end }}

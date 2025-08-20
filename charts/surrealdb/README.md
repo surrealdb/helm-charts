@@ -1,6 +1,6 @@
 # SurrealDB Helm Chart
 
-![Version: 0.3.7](https://img.shields.io/badge/Version-0.3.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 0.4.0](https://img.shields.io/badge/Version-0.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 SurrealDB is the ultimate cloud database for tomorrow's applications.
 
@@ -42,6 +42,7 @@ Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 | replicaCount | int | `1` | The number of SurrealDB pods to run  Note that you usually scale this only when the backend supports it. For example, if you specify volumes and volumeMounts to make this SurrealDB instance stateful, you should not scale it, as it will result in two or more instances writing to the same volume or working independently. |
 | resources | object | `{}` | Resource limits and requests |
 | securityContext | object | `{}` (See [values.yaml]) | SurrealDB container-level security context |
+| strategy | object | `{"type":"RollingUpdate"}` | Only really applicable when the deployment has an RWO PV attached Since replicas = 1, an update can get "stuck", as the previous pod remains attached to the PV, and the "incoming" pod can never start. Changing the strategy to "Recreate" will terminate the single previous pod, so that the new, incoming pod can attach to the PV |
 | tolerations | list | `[]` | [Tolerations] for use with node taints |
 | volumeMounts | list | `[]` | Additional volume mounts for SurrealDB container |
 | volumes | list | `[]` | Additional volumes for SurrealDB pod |

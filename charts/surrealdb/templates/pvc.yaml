@@ -10,7 +10,8 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if .Values.persistence.storageClassName }}
+  {{- with .Values.persistence.storageClassName }}
+  storageClassName: {{ . }}
   storageClassName: {{ .Values.persistence.storageClassName }}
   {{- end }}
   accessModes:

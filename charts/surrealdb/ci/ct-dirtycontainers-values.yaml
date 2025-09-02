@@ -1,0 +1,4 @@
+initContainers:
+  - name: a
+extraContainers:
+  - name: b

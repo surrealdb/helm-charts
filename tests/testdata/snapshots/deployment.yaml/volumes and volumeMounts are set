@@ -5,7 +5,7 @@ kind: Deployment
 metadata:
   name: testrelease-surrealdb
   labels:
-    helm.sh/chart: surrealdb-0.3.7
+    helm.sh/chart: surrealdb-0.3.9
     app.kubernetes.io/name: surrealdb
     app.kubernetes.io/instance: testrelease
     app.kubernetes.io/version: "1.0.0"
@@ -61,7 +61,6 @@ spec:
               port: http
           resources:
             {}
-          
           volumeMounts:
             - mountPath: /var/lib/surrealdb
               name: surrealdb-data

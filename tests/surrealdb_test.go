@@ -65,4 +65,9 @@ func TestDeployment(t *testing.T) {
 			},
 		},
 	})
+	testTemplate(t, "deployment.yaml", "update strategy to Recreate", map[string]interface{}{
+		"strategy": map[string]interface{}{
+			"type": "Recreate",
+		},
+	})
 }

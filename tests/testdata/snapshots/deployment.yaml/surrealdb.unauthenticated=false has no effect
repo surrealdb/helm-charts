@@ -5,12 +5,14 @@ kind: Deployment
 metadata:
   name: testrelease-surrealdb
   labels:
-    helm.sh/chart: surrealdb-0.3.9
+    helm.sh/chart: surrealdb-0.3.11
     app.kubernetes.io/name: surrealdb
     app.kubernetes.io/instance: testrelease
     app.kubernetes.io/version: "1.0.0"
     app.kubernetes.io/managed-by: Helm
 spec:
+  strategy:
+    type: RollingUpdate
   replicas: 1
   selector:
     matchLabels:

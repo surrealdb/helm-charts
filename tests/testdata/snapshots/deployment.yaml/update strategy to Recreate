@@ -12,7 +12,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 spec:
   strategy:
-    type: RollingUpdate
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:

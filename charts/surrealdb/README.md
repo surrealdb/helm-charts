@@ -110,7 +110,7 @@ An optional horizontal pod autoscaler that, when defined, will use metrics to sc
 | persistence.annotations | object | `{}` | Annotations for the PVC |
 | persistence.enabled | bool | `false` | Enable persistent storage |
 | persistence.mountPath | string | `"/data"` | Mount path for the persistent volume |
-| persistence.selector | object | `{}` | Selector to match an existing Persistent Volume |
+| persistence.selector | object | `{}` (no selector) | Selector to match an existing Persistent Volume |
 | persistence.size | string | `"10Gi"` | Size of the persistent volume |
 | persistence.storageClassName | string | `""` (uses default storage class) | Storage class name for the PVC |
 

@@ -36,7 +36,7 @@ Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 {{- range .Values }}
-  {{- if not (or  (hasPrefix "surrealdb" .Key) (hasPrefix "image" .Key) (hasPrefix "ingress" .Key) (hasPrefix "service" .Key) (hasPrefix "serviceAccount" .Key) (or (eq .Key "nameOverride") (eq .Key "fullnameOverride"))) }}
+  {{- if not (or  (hasPrefix "surrealdb" .Key) (hasPrefix "image" .Key) (hasPrefix "ingress" .Key) (hasPrefix "persistence" .Key) (hasPrefix "service" .Key) (hasPrefix "serviceAccount" .Key) (or (eq .Key "nameOverride") (eq .Key "fullnameOverride"))) }}
 | {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
   {{- end }}
 {{- end }}
@@ -99,6 +99,16 @@ An optional horizontal pod autoscaler that, when defined, will use metrics to sc
 |-----|------|---------|-------------|
 {{- range .Values }}
   {{- if hasPrefix "ingress" .Key }}
+| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- end }}
+{{- end }}
+
+## Persistence parameters
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+{{- range .Values }}
+  {{- if hasPrefix "persistence" .Key }}
 | {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
   {{- end }}
 {{- end }}

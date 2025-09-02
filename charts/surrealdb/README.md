@@ -44,6 +44,7 @@ Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 | replicaCount | int | `1` | The number of SurrealDB pods to run  Note that you usually scale this only when the backend supports it. For example, if you specify volumes and volumeMounts to make this SurrealDB instance stateful, you should not scale it, as it will result in two or more instances writing to the same volume or working independently. |
 | resources | object | `{}` | Resource limits and requests |
 | securityContext | object | `{}` (See [values.yaml]) | SurrealDB container-level security context |
+| strategy | object | `{"type":"RollingUpdate"}` | Only really applicable when the deployment has an RWO PV attached Since replicas = 1, an update can get "stuck", as the previous pod remains attached to the PV, and the "incoming" pod can never start. Changing the strategy to "Recreate" will terminate the single previous pod, so that the new, incoming pod can attach to the PV |
 | tolerations | list | `[]` | [Tolerations] for use with node taints |
 | volumeMounts | list | `[]` | Additional volume mounts for SurrealDB container |
 | volumes | list | `[]` | Additional volumes for SurrealDB pod |

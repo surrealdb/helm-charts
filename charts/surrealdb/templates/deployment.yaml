@@ -97,6 +97,7 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          {{- if or .Values.persistence.enabled .Values.volumeMounts }}
           volumeMounts:
           {{- if .Values.persistence.enabled }}
             - name: data
@@ -104,6 +105,7 @@ spec:
           {{- end }}
           {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -117,6 +119,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if or .Values.persistence.enabled .Values.volumes }}
       volumes:
       {{- if .Values.persistence.enabled }}
         - name: data
@@ -125,4 +128,5 @@ spec:
       {{- end }}
       {{- with .Values.volumes}}
         {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- end }}

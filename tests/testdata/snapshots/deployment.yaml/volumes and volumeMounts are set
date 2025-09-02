@@ -61,7 +61,6 @@ spec:
               port: http
           resources:
             {}
-          
           volumeMounts:
             - mountPath: /var/lib/surrealdb
               name: surrealdb-data

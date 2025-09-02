@@ -14,9 +14,7 @@ spec:
   storageClassName: {{ .Values.persistence.storageClassName }}
   {{- end }}
   accessModes:
-    {{- range .Values.persistence.accessModes }}
-    - {{ . }}
-    {{- end }}
+    {{- toYaml .Values.persistence.accessModes | nindent 4 }}
   resources:
     requests:
       storage: {{ .Values.persistence.size }}

@@ -58,6 +58,12 @@ surrealdb:
   # object_cache: "file:/data/cache"
   # object_store: "file:/data/store"
 
+# -- Set to `{"type":"Recreate"}` when the deployment has an RWO PV attached and replicas = 1.
+# Otherwise, an update can get stuck, as the previous pod remains attached to the PV, and the "incoming" pod can never start.
+# Changing the strategy to "Recreate" will terminate the single previous pod, so that the new, incoming pod can attach to the PV
+strategy:
+  type: RollingUpdate
+
 serviceAccount:
   # -- Specifies whether a service account should be created
   create: true
@@ -100,6 +106,13 @@ securityContext: {}
 #  capabilities:
 #    drop:
 #      - ALL
+
+
+# -- initContainers
+initContainers: []
+
+# -- for deploying of additional Containers
+extraContainers: []
 
 service:
   # -- Service annotations
@@ -171,3 +184,23 @@ volumes: []
 
 # -- Additional volume mounts for SurrealDB container
 volumeMounts: []
+
+# Persistence configuration for SurrealDB data
+persistence:
+  # -- Enable persistent storage
+  enabled: false
+  # -- Storage class name for the PVC
+  # @default -- `""` (uses default storage class)
+  storageClassName: ""
+  # -- Access modes for the PVC
+  accessModes:
+    - ReadWriteOnce
+  # -- Size of the persistent volume
+  size: 10Gi
+  # -- Annotations for the PVC
+  annotations: {}
+  # -- Selector to match an existing Persistent Volume
+  # @default -- `{}` (no selector)
+  selector: {}
+  # -- Mount path for the persistent volume
+  mountPath: /data

@@ -41,4 +41,33 @@ func TestDeployment(t *testing.T) {
 			},
 		},
 	})
+	testTemplate(t, "deployment.yaml", "init and extra containers are set", map[string]interface{}{
+		"initContainers": []interface{}{
+			map[string]interface{}{
+				"name":  "init-myservice",
+				"image": "myservice:latest",
+				"command": []string{
+					"/bin/sh",
+					"-c",
+					"echo Init Container",
+				},
+			},
+		},
+		"extraContainers": []interface{}{
+			map[string]interface{}{
+				"name":  "extra-myservice",
+				"image": "myservice:latest",
+				"command": []string{
+					"/bin/sh",
+					"-c",
+					"echo Extra Container",
+				},
+			},
+		},
+	})
+	testTemplate(t, "deployment.yaml", "update strategy to Recreate", map[string]interface{}{
+		"strategy": map[string]interface{}{
+			"type": "Recreate",
+		},
+	})
 }

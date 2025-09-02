@@ -1,6 +1,6 @@
 # SurrealDB Helm Chart
 
-![Version: 0.3.7](https://img.shields.io/badge/Version-0.3.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 0.4.0](https://img.shields.io/badge/Version-0.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 SurrealDB is the ultimate cloud database for tomorrow's applications.
 
@@ -31,10 +31,12 @@ Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Assign custom [affinity] rules to the deployment |
 | args | list | `["start"]` | Command line arguments to pass to SurrealDB |
+| extraContainers | list | `[]` | for deploying of additional Containers |
 | horizontalPodAutoscaler.enabled | bool | `false` | Enable the horizontal pod autoscaler for Surrealdb pods |
 | horizontalPodAutoscaler.maxReplicas | int | `1` | Max pod replicas |
 | horizontalPodAutoscaler.metrics | list | `[]` (See [values.yaml]) | Metrics which the autoscaler reacts to. See [kubernetes autoscale docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) for metric format. |
 | horizontalPodAutoscaler.minReplicas | int | `1` | Min pod replicas |
+| initContainers | list | `[]` | initContainers |
 | nodeSelector | object | `{}` | [Node selector] |
 | podAnnotations | object | `{}` | Annotations to be added to SurrealDB pods |
 | podExtraEnv | list | `[]` | Extra env entries added to the SurrealDB pods |

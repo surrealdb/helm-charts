@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - .github/workflows/ci.yaml
       - "charts/**"
       - "e2e/**"
       - "tests/**"
@@ -179,9 +180,10 @@ jobs:
       matrix:
         k8s:
           # from https://hub.docker.com/r/kindest/node/tags
-          - v1.27.3 # renovate: kindest
-          - v1.28.0 # renovate: kindest
-          - v1.29.2 # renovate: kindest
+          - v1.31.12 # renovate: kindest
+          - v1.32.8 # renovate: kindest
+          - v1.33.4 # renovate: kindest
+          - v1.34.0 # renovate: kindest
     steps:
       - name: Checkout
         uses: actions/checkout@v3

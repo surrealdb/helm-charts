@@ -25,6 +25,13 @@ spec:
       serviceAccountName: testrelease-surrealdb
       securityContext:
         {}
+      initContainers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo Init Container
+          image: myservice:latest
+          name: init-myservice
       containers:
         - name: surrealdb
           securityContext:
@@ -60,3 +67,9 @@ spec:
               port: http
           resources:
             {}
+        - command:
+          - /bin/sh
+          - -c
+          - echo Extra Container
+          image: myservice:latest
+          name: extra-myservice

@@ -58,10 +58,9 @@ surrealdb:
   # object_cache: "file:/data/cache"
   # object_store: "file:/data/store"
 
-# -- Only really applicable when the deployment has an RWO PV attached
-# Since replicas = 1, an update can get "stuck", as the previous pod remains attached to the
-# PV, and the "incoming" pod can never start. Changing the strategy to "Recreate" will
-# terminate the single previous pod, so that the new, incoming pod can attach to the PV
+# -- Set to `{"type":"Recreate"}` when the deployment has an RWO PV attached and replicas = 1.
+# Otherwise, an update can get stuck, as the previous pod remains attached to the PV, and the "incoming" pod can never start.
+# Changing the strategy to "Recreate" will terminate the single previous pod, so that the new, incoming pod can attach to the PV
 strategy:
   type: RollingUpdate
 

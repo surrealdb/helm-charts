@@ -5,10 +5,10 @@ kind: Deployment
 metadata:
   name: testrelease-surrealdb
   labels:
-    helm.sh/chart: surrealdb-0.3.11
+    helm.sh/chart: surrealdb-0.4.0
     app.kubernetes.io/name: surrealdb
     app.kubernetes.io/instance: testrelease
-    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/version: "2.3.7"
     app.kubernetes.io/managed-by: Helm
 spec:
   strategy:
@@ -38,7 +38,7 @@ spec:
         - name: surrealdb
           securityContext:
             {}
-          image: "surrealdb/surrealdb:1.0.0"
+          image: "surrealdb/surrealdb:v2.3.7"
           imagePullPolicy: IfNotPresent
           args:
             - start

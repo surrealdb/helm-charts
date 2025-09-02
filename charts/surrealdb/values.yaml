@@ -172,7 +172,7 @@ volumes: []
 # -- Additional volume mounts for SurrealDB container
 volumeMounts: []
 
-# -- Persistence configuration for SurrealDB data
+# Persistence configuration for SurrealDB data
 persistence:
   # -- Enable persistent storage
   enabled: false

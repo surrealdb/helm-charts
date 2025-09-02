@@ -9,6 +9,6 @@ metadata:
 spec:
   containers:
     - name: test-isready
-      image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+      image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default (printf "v%s" $.Chart.AppVersion) }}"
       args: ['isready', '--endpoint', 'http://{{ include "surrealdb.fullname" . }}:{{ .Values.service.port }}']
   restartPolicy: Never

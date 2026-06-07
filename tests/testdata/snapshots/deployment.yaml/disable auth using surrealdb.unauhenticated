@@ -56,9 +56,11 @@ spec:
             httpGet:
               path: /health
               port: http
+            timeoutSeconds: 5
           readinessProbe:
             httpGet:
               path: /health
               port: http
+            timeoutSeconds: 5
           resources:
             {}

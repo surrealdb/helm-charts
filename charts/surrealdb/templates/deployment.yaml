@@ -96,13 +96,23 @@ spec:
               containerPort: {{ .Values.surrealdb.port }}
               protocol: TCP
           livenessProbe:
+            {{- with .Values.livenessProbe }}
+            {{- toYaml . | nindent 12 }}
+            {{- else }}
             httpGet:
               path: /health
               port: http
+            timeoutSeconds: 5
+            {{- end }}
           readinessProbe:
+            {{- with .Values.readinessProbe }}
+            {{- toYaml . | nindent 12 }}
+            {{- else }}
             httpGet:
               path: /health
               port: http
+            timeoutSeconds: 5
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- if or .Values.persistence.enabled .Values.volumeMounts }}

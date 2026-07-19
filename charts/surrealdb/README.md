@@ -1,6 +1,6 @@
 # SurrealDB Helm Chart
 
-![Version: 0.4.4](https://img.shields.io/badge/Version-0.4.4-informational?style=for-the-badge) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=for-the-badge) ![AppVersion: 2.3.7](https://img.shields.io/badge/AppVersion-2.3.7-informational?style=for-the-badge)
+![Version: 0.4.5](https://img.shields.io/badge/Version-0.4.5-informational?style=for-the-badge) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=for-the-badge) ![AppVersion: 2.3.7](https://img.shields.io/badge/AppVersion-2.3.7-informational?style=for-the-badge)
 
 SurrealDB is the ultimate cloud database for tomorrow's applications.
 

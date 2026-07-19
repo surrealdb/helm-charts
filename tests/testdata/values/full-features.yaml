@@ -1,0 +1,39 @@
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: surreal.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - surreal.example.com
+      secretName: surreal-tls
+
+horizontalPodAutoscaler:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+
+persistence:
+  enabled: true
+  storageClassName: standard
+  size: 20Gi
+
+lifecycle:
+  preStop:
+    exec:
+      command: ["/bin/sh", "-c", "sleep 5"]
+
+terminationGracePeriodSeconds: 60
+
+strategy:
+  type: Recreate

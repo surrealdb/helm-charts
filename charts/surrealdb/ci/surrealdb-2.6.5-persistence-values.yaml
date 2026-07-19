@@ -1,0 +1,19 @@
+# Live install values for chart-testing (ct install / install-chart CI job).
+# Pins SurrealDB 2.6.x while the chart default appVersion tracks 3.x.
+# Uses the cluster default StorageClass (kind: standard / local-path).
+#
+# Official surrealdb/surrealdb runs as USER nonroot (uid/gid 65532):
+#   https://github.com/surrealdb/surrealdb/blob/main/docker/Dockerfile
+# A PVC mounted at /data is often provisioned as root-owned, so without
+# fsGroup the process cannot create the datastore (Permission denied).
+image:
+  tag: v2.6.5
+strategy:
+  type: Recreate
+persistence:
+  enabled: true
+  size: 1Gi
+surrealdb:
+  path: surrealkv:/data
+podSecurityContext:
+  fsGroup: 65532

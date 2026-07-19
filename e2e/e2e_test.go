@@ -13,6 +13,7 @@ import (
 
 var (
 	SurrealDBChartPath              = "../charts/surrealdb"
+	SurrealDBImageTag               = ""
 	KubectlTimeout                  = 1 * time.Second
 	DeploymentReplicasUpdateTimeout = 20 * time.Second
 	DeploymentReadyTimeout          = 3 * time.Minute
@@ -22,6 +23,9 @@ func TestMain(m *testing.M) {
 	var err error
 	if env := os.Getenv("SURREALDB_CHART_PATH"); env != "" {
 		SurrealDBChartPath = env
+	}
+	if env := os.Getenv("SURREALDB_IMAGE_TAG"); env != "" {
+		SurrealDBImageTag = env
 	}
 	if env := os.Getenv("KUBECTL_TIMEOUT"); env != "" {
 		KubectlTimeout, err = time.ParseDuration(env)
@@ -107,7 +111,12 @@ func TestPersistence(t *testing.T) {
 
 func helmUpgrade(t *testing.T, release string, args ...string) {
 	t.Helper()
-	c := exec.Command("helm", append([]string{"upgrade", "--install", release, SurrealDBChartPath}, args...)...)
+	cmdArgs := []string{"upgrade", "--install", release, SurrealDBChartPath}
+	if SurrealDBImageTag != "" {
+		cmdArgs = append(cmdArgs, "--set", "image.tag="+SurrealDBImageTag)
+	}
+	cmdArgs = append(cmdArgs, args...)
+	c := exec.Command("helm", cmdArgs...)
 	res, err := c.CombinedOutput()
 	if err != nil {
 		t.Fatalf("helm upgrade failed: %s", string(res))

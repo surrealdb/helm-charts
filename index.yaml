@@ -3,6 +3,28 @@ entries:
   surrealdb:
   - apiVersion: v2
     appVersion: 2.3.7
+    created: "2026-07-19T07:14:37.790673222Z"
+    description: SurrealDB is the ultimate cloud database for tomorrow's applications.
+    digest: b64e4bd24b9bf4aea7350ca0631ce464a5c48edfa3a2a4856e7f9df323235235
+    home: https://github.com/surrealdb/surrealdb
+    icon: https://raw.githubusercontent.com/surrealdb/surrealdb/main/img/icon.png
+    keywords:
+    - surrealdb
+    - surreal
+    - database
+    - distributed
+    - cloud
+    - tikv
+    maintainers:
+    - name: surrealdb
+      url: https://github.com/surrealdb
+    name: surrealdb
+    type: application
+    urls:
+    - https://github.com/surrealdb/helm-charts/releases/download/surrealdb-0.4.4/surrealdb-0.4.4.tgz
+    version: 0.4.4
+  - apiVersion: v2
+    appVersion: 2.3.7
     created: "2026-07-19T03:47:40.603034548Z"
     description: SurrealDB is the ultimate cloud database for tomorrow's applications.
     digest: b57c2c866c5926697e94ea61db8a9384cb265159cd4d278e9dc95b0e229972fd
@@ -377,4 +399,4 @@ entries:
     urls:
     - https://github.com/surrealdb/helm-charts/releases/download/surrealdb-0.1.0/surrealdb-0.1.0.tgz
     version: 0.1.0
-generated: "2026-07-19T03:47:40.604543007Z"
+generated: "2026-07-19T07:14:37.790789476Z"

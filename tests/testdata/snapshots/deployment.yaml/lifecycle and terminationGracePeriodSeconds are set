@@ -5,7 +5,7 @@ kind: Deployment
 metadata:
   name: testrelease-surrealdb
   labels:
-    helm.sh/chart: surrealdb-0.4.7
+    helm.sh/chart: surrealdb-0.5.0
     app.kubernetes.io/name: surrealdb
     app.kubernetes.io/instance: testrelease
     app.kubernetes.io/version: "2.6.5"

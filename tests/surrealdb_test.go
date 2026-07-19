@@ -90,4 +90,14 @@ func TestDeployment(t *testing.T) {
 		"livenessProbe":  nil,
 		"readinessProbe": nil,
 	})
+	testTemplate(t, "deployment.yaml", "lifecycle and terminationGracePeriodSeconds are set", map[string]interface{}{
+		"lifecycle": map[string]interface{}{
+			"preStop": map[string]interface{}{
+				"exec": map[string]interface{}{
+					"command": []string{"/bin/sh", "-c", "sleep 60"},
+				},
+			},
+		},
+		"terminationGracePeriodSeconds": 300,
+	})
 }

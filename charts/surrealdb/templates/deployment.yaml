@@ -115,6 +115,10 @@ spec:
             {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          {{- with .Values.lifecycle }}
+          lifecycle:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- if or .Values.persistence.enabled .Values.volumeMounts }}
           volumeMounts:
           {{- if .Values.persistence.enabled }}
@@ -139,6 +143,9 @@ spec:
       {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ . }}
       {{- end }}
       {{- if or .Values.persistence.enabled .Values.volumes }}
       volumes:

@@ -56,11 +56,19 @@ spec:
             httpGet:
               path: /health
               port: http
-            timeoutSeconds: 10
+            timeoutSeconds: 5
           readinessProbe:
             httpGet:
               path: /health
               port: http
-            timeoutSeconds: 15
+            timeoutSeconds: 5
           resources:
             {}
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                - /bin/sh
+                - -c
+                - sleep 60
+      terminationGracePeriodSeconds: 300

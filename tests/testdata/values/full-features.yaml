@@ -36,4 +36,5 @@ lifecycle:
 terminationGracePeriodSeconds: 60
 
 strategy:
-  type: Recreate
+  # Intentionally invalid — temporary CI failure-mode check
+  type: NotARealStrategy

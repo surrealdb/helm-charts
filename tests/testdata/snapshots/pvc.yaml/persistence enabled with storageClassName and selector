@@ -8,7 +8,7 @@ metadata:
     helm.sh/chart: surrealdb-0.5.0
     app.kubernetes.io/name: surrealdb
     app.kubernetes.io/instance: testrelease
-    app.kubernetes.io/version: "3.2.0"
+    app.kubernetes.io/version: "2.6.5"
     app.kubernetes.io/managed-by: Helm
 spec:
   storageClassName: fast-ssd

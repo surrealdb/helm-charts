@@ -2,7 +2,7 @@ apiVersion: v2
 name: surrealdb
 type: application
 version: 0.5.0
-appVersion: 3.2.0
+appVersion: 2.6.5
 description: SurrealDB is the ultimate cloud database for tomorrow's applications.
 keywords:
   - surrealdb

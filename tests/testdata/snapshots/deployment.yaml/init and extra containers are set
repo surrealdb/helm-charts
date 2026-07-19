@@ -8,7 +8,7 @@ metadata:
     helm.sh/chart: surrealdb-0.5.0
     app.kubernetes.io/name: surrealdb
     app.kubernetes.io/instance: testrelease
-    app.kubernetes.io/version: "3.2.0"
+    app.kubernetes.io/version: "2.6.5"
     app.kubernetes.io/managed-by: Helm
 spec:
   strategy:
@@ -38,7 +38,7 @@ spec:
         - name: surrealdb
           securityContext:
             {}
-          image: "surrealdb/surrealdb:v3.2.0"
+          image: "surrealdb/surrealdb:v2.6.5"
           imagePullPolicy: IfNotPresent
           args:
             - start

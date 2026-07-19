@@ -153,12 +153,14 @@ resources: {}
 #  requests: {}
 #  limits: {}
 
-# -- Container lifecycle hooks (e.g. preStop / postStart). Useful for ensuring
-# RocksDB gets time to flush its WAL and finalize its MANIFEST before SIGTERM
-# is forwarded to the surreal process. Without this, an in-flight write can
-# leave the data directory in a state that refuses to reopen (MANIFEST refers
-# to SST files that were never persisted, "Corruption: ..." on next start).
-# Example:
+# -- Container lifecycle hooks (e.g. preStop / postStart). Optional; unset by default.
+# The default surrealdb/surrealdb image has no shell, so exec hooks that invoke
+# /bin/sh or sleep will fail unless you use a custom image that includes them.
+# With the default image, prefer raising terminationGracePeriodSeconds so the
+# kubelet gives the process more time to exit cleanly after SIGTERM (including
+# RocksDB backends that may still be flushing). Sleep in a preStop hook only
+# delays SIGTERM; it does not flush or compact RocksDB by itself.
+# Example (requires an image with a shell):
 #   lifecycle:
 #     preStop:
 #       exec:
@@ -166,11 +168,10 @@ resources: {}
 lifecycle: {}
 
 # -- Pod termination grace period in seconds (overrides the kubelet default of 30s).
-# Set higher than the maximum expected RocksDB compaction/flush duration plus
-# any preStop sleep, so the pod isn't SIGKILL'd mid-flush during rollouts.
-# Leave unset to use the kubelet default.
-# terminationGracePeriodSeconds: 300
-terminationGracePeriodSeconds:
+# Raising this is the practical knob for graceful shutdown with the default image.
+# Leave unset to use the kubelet default. Example: `terminationGracePeriodSeconds: 300`
+# @default -- unset (kubelet default of 30s)
+terminationGracePeriodSeconds: null
 
 horizontalPodAutoscaler:
   # -- Enable the horizontal pod autoscaler for Surrealdb pods

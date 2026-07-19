@@ -1,6 +1,6 @@
 # SurrealDB Helm Chart
 
-![Version: 0.4.1](https://img.shields.io/badge/Version-0.4.1-informational?style=for-the-badge) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=for-the-badge) ![AppVersion: 2.3.7](https://img.shields.io/badge/AppVersion-2.3.7-informational?style=for-the-badge)
+![Version: 0.4.2](https://img.shields.io/badge/Version-0.4.2-informational?style=for-the-badge) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=for-the-badge) ![AppVersion: 2.3.7](https://img.shields.io/badge/AppVersion-2.3.7-informational?style=for-the-badge)
 
 SurrealDB is the ultimate cloud database for tomorrow's applications.
 
@@ -37,6 +37,7 @@ Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 | horizontalPodAutoscaler.metrics | list | `[]` (See [values.yaml]) | Metrics which the autoscaler reacts to. See [kubernetes autoscale docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) for metric format. |
 | horizontalPodAutoscaler.minReplicas | int | `1` | Min pod replicas |
 | initContainers | list | `[]` | initContainers |
+| lifecycle | object | `{}` | Container lifecycle hooks (e.g. preStop / postStart). Optional; unset by default. The default surrealdb/surrealdb image has no shell, so exec hooks that invoke /bin/sh or sleep will fail unless you use a custom image that includes them. With the default image, prefer raising terminationGracePeriodSeconds so the kubelet gives the process more time to exit cleanly after SIGTERM (including RocksDB backends that may still be flushing). Sleep in a preStop hook only delays SIGTERM; it does not flush or compact RocksDB by itself. Example (requires an image with a shell):   lifecycle:     preStop:       exec:         command: ["/bin/sh", "-c", "sleep 60"] |
 | livenessProbe | object | See [values.yaml] | Configure liveness probe |
 | nodeSelector | object | `{}` | [Node selector] |
 | podAnnotations | object | `{}` | Annotations to be added to SurrealDB pods |
@@ -47,6 +48,7 @@ Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 | resources | object | `{}` | Resource limits and requests |
 | securityContext | object | `{}` (See [values.yaml]) | SurrealDB container-level security context |
 | strategy | object | `{"type":"RollingUpdate"}` | Set to `{"type":"Recreate"}` when the deployment has an RWO PV attached and replicas = 1. Otherwise, an update can get stuck, as the previous pod remains attached to the PV, and the "incoming" pod can never start. Changing the strategy to "Recreate" will terminate the single previous pod, so that the new, incoming pod can attach to the PV |
+| terminationGracePeriodSeconds | string | unset (kubelet default of 30s) | Pod termination grace period in seconds (overrides the kubelet default of 30s). Raising this is the practical knob for graceful shutdown with the default image. Leave unset to use the kubelet default. Example: `terminationGracePeriodSeconds: 300` |
 | tolerations | list | `[]` | [Tolerations] for use with node taints |
 | volumeMounts | list | `[]` | Additional volume mounts for SurrealDB container |
 | volumes | list | `[]` | Additional volumes for SurrealDB pod |

@@ -98,3 +98,29 @@ update-test-snapshots: docs
 .PHONY: lint
 lint:
 	golangci-lint run
+
+# Server-side validate helm-rendered manifests against a live cluster API
+# (e.g. kind). Requires helm and kubectl with a working cluster context.
+VALUES_DIR := tests/testdata/values
+
+.PHONY: validate-manifests
+validate-manifests:
+	@command -v helm >/dev/null || { echo "helm is required" >&2; exit 1; }
+	@command -v kubectl >/dev/null || { echo "kubectl is required" >&2; exit 1; }
+	@kubectl cluster-info >/dev/null 2>&1 || { \
+		echo "kubectl must reach a cluster (create one with kind, then retry)" >&2; \
+		exit 1; \
+	}
+	@set -e; \
+	for chart in charts/*/ ; do \
+		chart_name=$$(basename "$$chart"); \
+		for values in $(VALUES_DIR)/*.yaml ; do \
+			values_name=$$(basename "$$values"); \
+			echo "Validating $$chart_name with $$values_name..."; \
+			tmp=$$(mktemp); \
+			helm template "validate-$$chart_name" "$$chart" -f "$$values" > "$$tmp"; \
+			kubectl apply --dry-run=server --validate=true -f "$$tmp"; \
+			rm -f "$$tmp"; \
+		done; \
+	done
+	@echo "validate-manifests ok"

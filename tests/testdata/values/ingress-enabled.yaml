@@ -1,0 +1,8 @@
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: surreal.example.com
+      paths:
+        - path: /
+          pathType: Prefix

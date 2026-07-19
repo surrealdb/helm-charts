@@ -5,6 +5,7 @@ on:
   pull_request:
     paths:
       - .github/workflows/ci.yaml
+      - Makefile
       - "charts/**"
       - "e2e/**"
       - "tests/**"
@@ -57,7 +58,7 @@ jobs:
       - name: Check chart docs
         run: make helm-docs-check
 
-  kubeval-chart:
+  validate-manifests:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -69,7 +70,7 @@ jobs:
     strategy:
       matrix:
         k8s:
-          # from https://github.com/yannh/kubernetes-json-schema
+          # from https://hub.docker.com/r/kindest/node/tags
           - v1.31.12
           - v1.32.8
           - v1.33.4
@@ -85,19 +86,14 @@ jobs:
         with:
           version: v3.6.3
 
-      - name: Run helm-template
-        run: |
-          mkdir manifests
-
-          for dir in charts/*/
-          do
-              helm template "${dir}" > "manifests/$(basename $dir).yaml"
-          done
-      - name: Run kubeval
-        uses: instrumenta/kubeval-action@5915e4adba5adccac07cb156b82e54c3fed74921 # master
+      - name: Create kind ${{ matrix.k8s }} cluster
+        uses: helm/kind-action@ef37e7f390d99f746eb8b610417061a60e82a6cc # v1.14.0
         with:
-          files: "manifests"
-          version: ${{ matrix.k8s }}
+          node_image: kindest/node:${{ matrix.k8s }}
+          version: v0.20.0
+
+      - name: Validate rendered manifests
+        run: make validate-manifests
 
   template-test:
     name: template-test
@@ -164,15 +160,15 @@ jobs:
     needs:
       - lint-chart
       - lint-docs
-      - kubeval-chart
+      - validate-manifests
     strategy:
       matrix:
         k8s:
           # from https://hub.docker.com/r/kindest/node/tags
-          - v1.31.12 # renovate: kindest
-          - v1.32.8 # renovate: kindest
-          - v1.33.4 # renovate: kindest
-          - v1.34.0 # renovate: kindest
+          - v1.31.12
+          - v1.32.8
+          - v1.33.4
+          - v1.34.0
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -196,7 +192,7 @@ jobs:
     needs:
       - lint-chart
       - lint-docs
-      - kubeval-chart
+      - validate-manifests
       - install-chart
     runs-on: ubuntu-latest
     permissions:
@@ -216,10 +212,10 @@ jobs:
           needs.lint-docs.result == 'failure' ||
           needs.lint-docs.result == 'cancelled'
         run: exit 1
-      - name: Fail for failed or cancelled kubeval-chart
+      - name: Fail for failed or cancelled validate-manifests
         if: |
-          needs.kubeval-chart.result == 'failure' ||
-          needs.kubeval-chart.result == 'cancelled'
+          needs.validate-manifests.result == 'failure' ||
+          needs.validate-manifests.result == 'cancelled'
         run: exit 1
       - name: Fail for failed or cancelled install-chart
         if: |

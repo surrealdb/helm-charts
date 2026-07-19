@@ -8,26 +8,34 @@
 # For example, if you specify volumes and volumeMounts to make this SurrealDB
 # instance stateful, you should not scale it, as it will result in two or more
 # instances writing to the same volume or working independently.
+# @section -- General parameters
 replicaCount: 1
 
 image:
   # -- Repository to use for SurrealDB
+  # @section -- Image parameters
   repository: surrealdb/surrealdb
   # -- Image pull policy for SurrealDB
+  # @section -- Image parameters
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   # -- Tag to use for SurrealDB
   # @default -- `""` (defaults to chart appVersion)
+  # @section -- Image parameters
   tag: ""
 # -- Secrets with credentials to pull images from a private registry
+# @section -- Image parameters
 imagePullSecrets: []
 
 # -- Provide a name in place of `surrealdb`
+# @section -- Overrides
 nameOverride: ""
 # -- String to fully override `"surrealdb"`
+# @section -- Overrides
 fullnameOverride: ""
 
 # -- Command line arguments to pass to SurrealDB
+# @section -- General parameters
 args: [start]
 
 surrealdb:
@@ -35,8 +43,10 @@ surrealdb:
   #
   # * tikv example
   # -- path: tikv://tikv-pd:2379
+  # @section -- SurrealDB parameters
   path: memory
   # -- Log configuration
+  # @section -- SurrealDB parameters
   log: info
   # -- Initial user credentials
   # Set these values to bootstrap the datastore with an initial root user the first time you install the chart.
@@ -53,6 +63,7 @@ surrealdb:
   # auth: true
 
   # -- SurrealDB container port
+  # @section -- SurrealDB parameters
   port: 8000
   # Enable the following for jwks feature
   # object_cache: "file:/data/cache"
@@ -61,20 +72,25 @@ surrealdb:
 # -- Set to `{"type":"Recreate"}` when the deployment has an RWO PV attached and replicas = 1.
 # Otherwise, an update can get stuck, as the previous pod remains attached to the PV, and the "incoming" pod can never start.
 # Changing the strategy to "Recreate" will terminate the single previous pod, so that the new, incoming pod can attach to the PV
+# @section -- General parameters
 strategy:
   type: RollingUpdate
 
 serviceAccount:
   # -- Specifies whether a service account should be created
+  # @section -- Service account parameters
   create: true
   # -- Annotations to add to the service account
+  # @section -- Service account parameters
   annotations: {}
   # If not set and create is true, a name is generated using the fullname template
   # -- The name of the service account to use.
   # @default -- `""` (defaults to the fullname template)
+  # @section -- Service account parameters
   name: ""
 
 # -- Extra env entries added to the SurrealDB pods
+# @section -- General parameters
 podExtraEnv:
   []
   # - name: TZ
@@ -86,10 +102,12 @@ podExtraEnv:
   #       key: password
 
 # -- Annotations to be added to SurrealDB pods
+# @section -- General parameters
 podAnnotations: {}
 
 # -- Toggle and define pod-level security context.
 # @default -- `{}` (See [values.yaml])
+# @section -- General parameters
 podSecurityContext: {}
 #  runAsUser: 999
 #  runAsGroup: 999
@@ -97,6 +115,7 @@ podSecurityContext: {}
 
 # -- SurrealDB container-level security context
 # @default -- `{}` (See [values.yaml])
+# @section -- General parameters
 securityContext: {}
 #  runAsNonRoot: true
 #  readOnlyRootFilesystem: true
@@ -109,30 +128,40 @@ securityContext: {}
 
 
 # -- initContainers
+# @section -- General parameters
 initContainers: []
 
 # -- for deploying of additional Containers
+# @section -- General parameters
 extraContainers: []
 
 service:
   # -- Service annotations
+  # @section -- Service parameters
   annotations: {}
   # -- Service type
+  # @section -- Service parameters
   type: ClusterIP
   # -- Service port
+  # @section -- Service parameters
   port: 8000
   # -- Target container port
+  # @section -- Service parameters
   targetPort: http
 
 ingress:
   # -- Enable an ingress resource
+  # @section -- Ingress parameters
   enabled: false
   # -- Defines which ingress controller will implement the resource
+  # @section -- Ingress parameters
   className: ""
   # -- Additional ingress annotations
+  # @section -- Ingress parameters
   annotations: {}
   # -- List of hosts to be covered by ingress record
   # @default -- `[]` (See [values.yaml])
+  # @section -- Ingress parameters
   hosts: []
   # - host: surreal.example.com
   #   paths:
@@ -140,15 +169,18 @@ ingress:
   #       pathType: Prefix
 
   # -- Create default backend
+  # @section -- Ingress parameters
   defaultBackend: true
   # -- List of TLS configuration
   # @default -- `[]` (See [values.yaml])
+  # @section -- Ingress parameters
   tls: []
   # - hosts:
   #   - surreal.example.com
   #   secretName: your-certificate-name
 
 # -- Resource limits and requests
+# @section -- General parameters
 resources: {}
 #  requests: {}
 #  limits: {}
@@ -165,23 +197,29 @@ resources: {}
 #     preStop:
 #       exec:
 #         command: ["/bin/sh", "-c", "sleep 60"]
+# @section -- General parameters
 lifecycle: {}
 
 # -- Pod termination grace period in seconds (overrides the kubelet default of 30s).
 # Raising this is the practical knob for graceful shutdown with the default image.
 # Leave unset to use the kubelet default. Example: `terminationGracePeriodSeconds: 300`
 # @default -- unset (kubelet default of 30s)
+# @section -- General parameters
 terminationGracePeriodSeconds: null
 
 horizontalPodAutoscaler:
   # -- Enable the horizontal pod autoscaler for Surrealdb pods
+  # @section -- General parameters
   enabled: false
   # -- Min pod replicas
+  # @section -- General parameters
   minReplicas: 1
   # -- Max pod replicas
+  # @section -- General parameters
   maxReplicas: 1
   # -- Metrics which the autoscaler reacts to. See [kubernetes autoscale docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) for metric format.
   # @default -- `[]` (See [values.yaml])
+  # @section -- General parameters
   metrics: []
   # - type: Resource
   #   resource:
@@ -191,42 +229,55 @@ horizontalPodAutoscaler:
   #       averageUtilization: 80
 
 # -- [Node selector]
+# @section -- General parameters
 nodeSelector: {}
 
 # -- [Tolerations] for use with node taints
+# @section -- General parameters
 tolerations: []
 
 # -- Assign custom [affinity] rules to the deployment
+# @section -- General parameters
 affinity: {}
 
 # -- Additional volumes for SurrealDB pod
+# @section -- General parameters
 volumes: []
 
 # -- Additional volume mounts for SurrealDB container
+# @section -- General parameters
 volumeMounts: []
 
 # Persistence configuration for SurrealDB data
 persistence:
   # -- Enable persistent storage
+  # @section -- Persistence parameters
   enabled: false
   # -- Storage class name for the PVC
   # @default -- `""` (uses default storage class)
+  # @section -- Persistence parameters
   storageClassName: ""
   # -- Access modes for the PVC
+  # @section -- Persistence parameters
   accessModes:
     - ReadWriteOnce
   # -- Size of the persistent volume
+  # @section -- Persistence parameters
   size: 10Gi
   # -- Annotations for the PVC
+  # @section -- Persistence parameters
   annotations: {}
   # -- Selector to match an existing Persistent Volume
   # @default -- `{}` (no selector)
+  # @section -- Persistence parameters
   selector: {}
   # -- Mount path for the persistent volume
+  # @section -- Persistence parameters
   mountPath: /data
 
 # -- Configure liveness probe
 # @default -- See [values.yaml]
+# @section -- General parameters
 livenessProbe:
   httpGet:
     path: /health
@@ -235,6 +286,7 @@ livenessProbe:
 
 # -- Configure readiness probe
 # @default -- See [values.yaml]
+# @section -- General parameters
 readinessProbe:
   httpGet:
     path: /health

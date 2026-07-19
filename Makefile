@@ -54,6 +54,29 @@ $(TOOLS_BIN)/.helm-docs-$(HELM_DOCS_VERSION):
 docs: $(HELM_DOCS)
 	$(HELM_DOCS) $(HELM_DOCS_FLAGS)
 
+# Strict undocumented-values check (-x) plus README drift check.
+# helm-docs exits 0 even when -x skips a chart, so we detect the skip via log output.
+.PHONY: helm-docs-check
+helm-docs-check: $(HELM_DOCS)
+	@echo "helm-docs strict check (-x -c charts)..."
+	@tmp=$$(mktemp); \
+	$(HELM_DOCS) $(HELM_DOCS_FLAGS) -x --dry-run >$$tmp 2>&1; \
+	if grep -q "values without documentation" $$tmp; then \
+		cat $$tmp >&2; rm -f $$tmp; \
+		echo "helm-docs strict check (-x) failed: undocumented values" >&2; \
+		exit 1; \
+	fi; \
+	if ! grep -q "Generating README Documentation" $$tmp; then \
+		cat $$tmp >&2; rm -f $$tmp; \
+		echo "helm-docs strict check (-x) failed: chart docs were not generated" >&2; \
+		exit 1; \
+	fi; \
+	rm -f $$tmp
+	@echo "helm-docs README drift check..."
+	$(HELM_DOCS) $(HELM_DOCS_FLAGS)
+	git diff --exit-code -- charts/**/README.md
+	@echo "helm-docs check ok"
+
 .PHONY: build
 build: docs
 	$(GO) build
@@ -63,7 +86,7 @@ clean:
 	$(GO) clean -modcache
 
 .PHONY: test
-test: docs
+test: helm-docs-check
 	$(GO) clean -testcache
 	$(GO) test -v -cover ./...
 

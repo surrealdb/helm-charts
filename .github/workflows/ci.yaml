@@ -54,11 +54,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Generate chart docs
-        run: make docs
-
-      - name: Check chart docs are up to date
-        run: git diff --exit-code charts/**/README.md
+      - name: Check chart docs
+        run: make helm-docs-check
 
   kubeval-chart:
     runs-on: ubuntu-latest

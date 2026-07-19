@@ -88,7 +88,7 @@ An optional horizontal pod autoscaler that, when defined, will use metrics to sc
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 {{- range .Values }}
-  {{- if hasPrefix "horizontalPodAutoscaler" .Key }}
+  {{- if hasPrefix "horizontalPodAutoscaler." .Key }}
 | {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
   {{- end }}
 {{- end }}

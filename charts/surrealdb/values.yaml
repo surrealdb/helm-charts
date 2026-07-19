@@ -113,9 +113,15 @@ podAnnotations: {}
 # @default -- `{}` (See [values.yaml])
 # @section -- General parameters
 podSecurityContext: {}
-#  runAsUser: 999
-#  runAsGroup: 999
-#  fsGroup: 999
+# Official surrealdb/surrealdb images run as USER nonroot (uid/gid 65532):
+#   https://github.com/surrealdb/surrealdb/blob/main/docker/Dockerfile
+# When persistence.enabled mounts a PVC over /data, many CSI/local-path
+# provisioners create the volume as root:root, so the process cannot write
+# (Permission denied). Set fsGroup to the image gid so Kubernetes chowns the
+# volume for the nonroot group. See helm-charts#31 and surrealdb/surrealdb#6317.
+#  fsGroup: 65532
+#  runAsUser: 65532
+#  runAsGroup: 65532
 
 # securityContext -- SurrealDB container-level security context
 # @default -- `{}` (See [values.yaml])
@@ -257,6 +263,14 @@ volumeMounts: []
 
 # Persistence configuration for SurrealDB data
 # persistence --
+# Recommended with persistence.enabled:
+#   strategy.type: Recreate          # RWO + single replica
+#   surrealdb.path: surrealkv:/data  # or rocksdb:/data/...
+#   podSecurityContext.fsGroup: 65532
+# The official image USER is nonroot (65532); see
+# https://github.com/surrealdb/surrealdb/blob/main/docker/Dockerfile
+# Without fsGroup (or an initContainer chown), a root-owned PVC at mountPath
+# often fails with Permission denied (helm-charts#31, surrealdb/surrealdb#6317).
 persistence:
   # persistence.enabled -- Enable persistent storage
   # @section -- Persistence parameters
@@ -282,6 +296,9 @@ persistence:
   # persistence.mountPath -- Mount path for the persistent volume
   # @section -- Persistence parameters
   mountPath: /data
+  # Must match surrealdb.path. Image declares VOLUME /data; PVC replaces image
+  # /data ownership — pair with podSecurityContext.fsGroup: 65532 (see
+  # podSecurityContext comments and Dockerfile link above).
 
 # livenessProbe -- Configure liveness probe
 # @default -- See [values.yaml]

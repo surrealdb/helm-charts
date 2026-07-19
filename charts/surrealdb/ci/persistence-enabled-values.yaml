@@ -1,6 +1,12 @@
-# Live install values for chart-testing (ct install).
+# Live install values for chart-testing (ct install / install-chart CI job).
 # Uses the cluster default StorageClass (kind: standard / local-path).
-# fsGroup mitigates PVC permission issues with the nonroot image user (see #31).
+#
+# Official surrealdb/surrealdb runs as USER nonroot (uid/gid 65532):
+#   https://github.com/surrealdb/surrealdb/blob/main/docker/Dockerfile
+# A PVC mounted at /data is often provisioned as root-owned, so without
+# fsGroup the process cannot create the datastore (Permission denied).
+# See https://github.com/surrealdb/helm-charts/issues/31 and
+# https://github.com/surrealdb/surrealdb/issues/6317
 strategy:
   type: Recreate
 persistence:

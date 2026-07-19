@@ -68,6 +68,8 @@ func TestHPAEnableDisable(t *testing.T) {
 
 // TestPersistence installs SurrealDB with a PVC, waits for Ready, deletes the pod,
 // and asserts it becomes Ready again on the same claim (kind local-path / default SC).
+// Uses podSecurityContext.fsGroup=65532 because the official image USER is nonroot
+// (https://github.com/surrealdb/surrealdb/blob/main/docker/Dockerfile); see #31.
 func TestPersistence(t *testing.T) {
 	const (
 		ReleaseName    = "sdb-persist"

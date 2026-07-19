@@ -101,3 +101,18 @@ func TestDeployment(t *testing.T) {
 		"terminationGracePeriodSeconds": 300,
 	})
 }
+
+func TestPVC(t *testing.T) {
+	testTemplate(t, "pvc.yaml", "persistence enabled with storageClassName and selector", map[string]interface{}{
+		"persistence": map[string]interface{}{
+			"enabled":          true,
+			"storageClassName": "fast-ssd",
+			"size":             "20Gi",
+			"selector": map[string]interface{}{
+				"matchLabels": map[string]interface{}{
+					"app": "surrealdb-data",
+				},
+			},
+		},
+	})
+}

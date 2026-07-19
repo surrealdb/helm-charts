@@ -12,7 +12,6 @@ metadata:
 spec:
   {{- with .Values.persistence.storageClassName }}
   storageClassName: {{ . }}
-  storageClassName: {{ .Values.persistence.storageClassName }}
   {{- end }}
   accessModes:
     {{- toYaml .Values.persistence.accessModes | nindent 4 }}
@@ -22,7 +21,5 @@ spec:
   {{- with .Values.persistence.selector }}
   selector:
     {{- toYaml . | nindent 4 }}
-  selector:
-    {{- toYaml .Values.persistence.selector | nindent 4 }}
   {{- end }}
 {{- end }}

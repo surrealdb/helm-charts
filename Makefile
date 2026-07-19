@@ -85,15 +85,38 @@ build: docs
 clean:
 	$(GO) clean -modcache
 
+# SurrealDB image tags for local e2e (keep in sync with e2e-test matrix in .github/workflows/ci.yaml).
+E2E_SURREALDB_TAGS ?= v2.6.5 v3.2.0
+
+# Full local parity with CI template + e2e jobs: unit/snapshot tests, then each
+# SurrealDB tag as a separate `go test` invocation (avoids go test cache reusing
+# results across SURREALDB_IMAGE_TAG values).
 .PHONY: test
-test: helm-docs-check
+test: helm-docs-check test-unit test-e2e
+
+.PHONY: test-unit
+test-unit:
 	$(GO) clean -testcache
-	$(GO) test -v -cover ./...
+	$(GO) test -v -cover ./tests/...
+
+.PHONY: test-e2e
+test-e2e:
+	@command -v helm >/dev/null || { echo "helm is required for e2e" >&2; exit 1; }
+	@command -v kubectl >/dev/null || { echo "kubectl is required for e2e" >&2; exit 1; }
+	@kubectl cluster-info >/dev/null 2>&1 || { \
+		echo "kubectl must reach a cluster (create one with kind, then retry)" >&2; \
+		exit 1; \
+	}
+	@set -e; \
+	for tag in $(E2E_SURREALDB_TAGS); do \
+		echo "=== e2e SurrealDB $$tag ==="; \
+		SURREALDB_IMAGE_TAG=$$tag $(GO) test -v -count=1 ./e2e/... -timeout 5m; \
+	done
 
 .PHONY: update-test-snapshots
 update-test-snapshots: docs
 	$(GO) clean -testcache
-	UPDATE_SNAPSHOT="deployment.yaml/*" $(GO) test -v -cover ./...
+	UPDATE_SNAPSHOT="deployment.yaml/*" $(GO) test -v -cover ./tests/...
 
 .PHONY: lint
 lint:

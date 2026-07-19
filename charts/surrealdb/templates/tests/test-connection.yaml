@@ -11,4 +11,4 @@ spec:
     - name: test-isready
       image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default (printf "v%s" $.Chart.AppVersion) }}"
       args: ['isready', '--endpoint', 'http://{{ include "surrealdb.fullname" . }}:{{ .Values.service.port }}']
-  restartPolicy: Never
+  restartPolicy: OnFailure

@@ -5,8 +5,6 @@
 #   https://github.com/surrealdb/surrealdb/blob/main/docker/Dockerfile
 # A PVC mounted at /data is often provisioned as root-owned, so without
 # fsGroup the process cannot create the datastore (Permission denied).
-# See https://github.com/surrealdb/helm-charts/issues/31 and
-# https://github.com/surrealdb/surrealdb/issues/6317
 strategy:
   type: Recreate
 persistence:

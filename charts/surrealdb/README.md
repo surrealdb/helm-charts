@@ -1,6 +1,6 @@
 # SurrealDB Helm Chart
 
-![Version: 0.3.11](https://img.shields.io/badge/Version-0.3.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 0.4.1](https://img.shields.io/badge/Version-0.4.1-informational?style=for-the-badge) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=for-the-badge) ![AppVersion: 2.3.7](https://img.shields.io/badge/AppVersion-2.3.7-informational?style=for-the-badge)
 
 SurrealDB is the ultimate cloud database for tomorrow's applications.
 
@@ -37,12 +37,12 @@ Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 | horizontalPodAutoscaler.metrics | list | `[]` (See [values.yaml]) | Metrics which the autoscaler reacts to. See [kubernetes autoscale docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) for metric format. |
 | horizontalPodAutoscaler.minReplicas | int | `1` | Min pod replicas |
 | initContainers | list | `[]` | initContainers |
-| livenessProbe | object | `(See [values.yaml])` | Configure liveness probe |
+| livenessProbe | object | See [values.yaml] | Configure liveness probe |
 | nodeSelector | object | `{}` | [Node selector] |
 | podAnnotations | object | `{}` | Annotations to be added to SurrealDB pods |
 | podExtraEnv | list | `[]` | Extra env entries added to the SurrealDB pods |
 | podSecurityContext | object | `{}` (See [values.yaml]) | Toggle and define pod-level security context. |
-| readinessProbe | object | `(See [values.yaml])` | Configure readiness probe |
+| readinessProbe | object | See [values.yaml] | Configure readiness probe |
 | replicaCount | int | `1` | The number of SurrealDB pods to run  Note that you usually scale this only when the backend supports it. For example, if you specify volumes and volumeMounts to make this SurrealDB instance stateful, you should not scale it, as it will result in two or more instances writing to the same volume or working independently. |
 | resources | object | `{}` | Resource limits and requests |
 | securityContext | object | `{}` (See [values.yaml]) | SurrealDB container-level security context |

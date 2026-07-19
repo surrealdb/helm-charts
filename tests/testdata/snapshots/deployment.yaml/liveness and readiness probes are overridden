@@ -35,7 +35,6 @@ spec:
           imagePullPolicy: IfNotPresent
           args:
             - start
-            - surrealkv:/var/lib/surrealdb
           env:
             - name: SURREAL_NO_BANNER
               value: "true"
@@ -57,18 +56,11 @@ spec:
             httpGet:
               path: /health
               port: http
-            timeoutSeconds: 5
+            timeoutSeconds: 10
           readinessProbe:
             httpGet:
               path: /health
               port: http
-            timeoutSeconds: 5
+            timeoutSeconds: 15
           resources:
             {}
-          volumeMounts:
-            - mountPath: /var/lib/surrealdb
-              name: surrealdb-data
-      volumes:
-        - name: surrealdb-data
-          persistentVolumeClaim:
-            claimName: surrealdb-data

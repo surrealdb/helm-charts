@@ -1,0 +1,12 @@
+# Live install values for chart-testing (ct install).
+# Uses the cluster default StorageClass (kind: standard / local-path).
+# fsGroup mitigates PVC permission issues with the nonroot image user (see #31).
+strategy:
+  type: Recreate
+persistence:
+  enabled: true
+  size: 1Gi
+surrealdb:
+  path: surrealkv:/data
+podSecurityContext:
+  fsGroup: 65532

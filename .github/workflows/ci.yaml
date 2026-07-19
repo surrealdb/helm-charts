@@ -146,9 +146,8 @@ jobs:
           version: v0.20.0
 
       - name: Run e2e test
-        # The timeout is explicitly set to clarify that we intend it to be short enough
-        # and not uncontrollably getting longer.
-        run: go test -v ./e2e/... -timeout 5m
+        # Timeout covers HPA toggles plus persistence PVC bind + pod restart.
+        run: go test -v ./e2e/... -timeout 10m
 
   install-chart:
     name: install-chart

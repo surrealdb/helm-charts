@@ -24,8 +24,9 @@ func TestMain(m *testing.M) {
 	if env := os.Getenv("SURREALDB_CHART_PATH"); env != "" {
 		SurrealDBChartPath = env
 	}
-	if env := os.Getenv("SURREALDB_IMAGE_TAG"); env != "" {
-		SurrealDBImageTag = env
+	SurrealDBImageTag = os.Getenv("SURREALDB_IMAGE_TAG")
+	if SurrealDBImageTag == "" {
+		log.Fatal("SURREALDB_IMAGE_TAG is required (e.g. v2.6.5 or v3.2.0); refuse to run e2e against an implicit chart default")
 	}
 	if env := os.Getenv("KUBECTL_TIMEOUT"); env != "" {
 		KubectlTimeout, err = time.ParseDuration(env)
@@ -111,11 +112,10 @@ func TestPersistence(t *testing.T) {
 
 func helmUpgrade(t *testing.T, release string, args ...string) {
 	t.Helper()
-	cmdArgs := []string{"upgrade", "--install", release, SurrealDBChartPath}
-	if SurrealDBImageTag != "" {
-		cmdArgs = append(cmdArgs, "--set", "image.tag="+SurrealDBImageTag)
-	}
-	cmdArgs = append(cmdArgs, args...)
+	cmdArgs := append([]string{
+		"upgrade", "--install", release, SurrealDBChartPath,
+		"--set", "image.tag=" + SurrealDBImageTag,
+	}, args...)
 	c := exec.Command("helm", cmdArgs...)
 	res, err := c.CombinedOutput()
 	if err != nil {

@@ -20,8 +20,8 @@ image:
   # @section -- Image parameters
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion (currently SurrealDB 2.6.x).
-  # Chart minor bumps mean a new chart feature and/or a SurrealDB minor bump in appVersion; pin
-  # image.tag if you need the image to stay fixed across chart upgrades.
+  # Chart minor bumps mean a new chart feature and/or a SurrealDB minor bump in appVersion.
+  # Pinning image.tag is highly recommended so chart upgrades do not change the image unexpectedly.
   # To run SurrealDB 3.x, set image.tag (e.g. v3.2.0). Do not treat a 2.x → 3.x image bump as an
   # in-place datastore upgrade; follow the official migration guide:
   # https://surrealdb.com/docs/build/migrating/from-old-surrealdb-versions/2x-to-3x

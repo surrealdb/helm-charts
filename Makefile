@@ -32,8 +32,8 @@ endif
 HELM_DOCS_ARCHIVE := helm-docs_$(HELM_DOCS_VERSION)_$(HELM_DOCS_OS)_$(HELM_DOCS_ARCH).tar.gz
 HELM_DOCS_URL := https://github.com/norwoodj/helm-docs/releases/download/v$(HELM_DOCS_VERSION)/$(HELM_DOCS_ARCHIVE)
 
-# Shared helm-docs template (relative to --chart-search-root). Chart-local README.md.gotmpl is not used.
-HELM_DOCS_FLAGS := --chart-search-root=charts --template-files=./README.md.gotmpl --badge-style=for-the-badge
+# Chart-local README.md.gotmpl (filename only = per chart under --chart-search-root).
+HELM_DOCS_FLAGS := --chart-search-root=charts --template-files=README.md.gotmpl --badge-style=for-the-badge
 
 .PHONY: tools
 tools: $(HELM_DOCS)

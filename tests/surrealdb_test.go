@@ -70,4 +70,24 @@ func TestDeployment(t *testing.T) {
 			"type": "Recreate",
 		},
 	})
+	testTemplate(t, "deployment.yaml", "liveness and readiness probes are overridden", map[string]interface{}{
+		"livenessProbe": map[string]interface{}{
+			"httpGet": map[string]interface{}{
+				"path": "/health",
+				"port": "http",
+			},
+			"timeoutSeconds": 10,
+		},
+		"readinessProbe": map[string]interface{}{
+			"httpGet": map[string]interface{}{
+				"path": "/health",
+				"port": "http",
+			},
+			"timeoutSeconds": 15,
+		},
+	})
+	testTemplate(t, "deployment.yaml", "liveness and readiness probes are missing in values", map[string]interface{}{
+		"livenessProbe":  nil,
+		"readinessProbe": nil,
+	})
 }

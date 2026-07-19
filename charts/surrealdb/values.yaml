@@ -204,3 +204,19 @@ persistence:
   selector: {}
   # -- Mount path for the persistent volume
   mountPath: /data
+
+# -- Configure liveness probe
+# @default -- See [values.yaml]
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  timeoutSeconds: 5
+
+# -- Configure readiness probe
+# @default -- See [values.yaml]
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http
+  timeoutSeconds: 5

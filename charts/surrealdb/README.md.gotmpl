@@ -20,6 +20,12 @@ This chart facilitates the deployment of [SurrealDB](https://surrealdb.com/docs/
 
 Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
 
+## SurrealDB versions
+
+The chart default `appVersion` tracks the latest SurrealDB **2.x** release. SurrealDB 3.x is supported by setting `image.tag` (for example `v3.2.0`). The 2.x and 3.x on-disk formats are incompatible, so do not upgrade an existing PersistentVolume by only changing the image tag. Follow the official [2.x to 3.x migration guide](https://surrealdb.com/docs/build/migrating/from-old-surrealdb-versions/2x-to-3x).
+
+A chart **minor** version bump means either a new chart feature or a SurrealDB minor bump in `appVersion` (the default image when `image.tag` is empty). Pinning `image.tag` is highly recommended so chart upgrades do not change the SurrealDB image unexpectedly.
+
 
 ## Overrides
 

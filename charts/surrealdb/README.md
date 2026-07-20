@@ -1,6 +1,6 @@
 # SurrealDB Helm Chart
 
-![Version: 0.4.6](https://img.shields.io/badge/Version-0.4.6-informational?style=for-the-badge) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=for-the-badge) ![AppVersion: 2.3.7](https://img.shields.io/badge/AppVersion-2.3.7-informational?style=for-the-badge)
+![Version: 0.5.0](https://img.shields.io/badge/Version-0.5.0-informational?style=for-the-badge) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=for-the-badge) ![AppVersion: 2.6.5](https://img.shields.io/badge/AppVersion-2.6.5-informational?style=for-the-badge)
 
 SurrealDB is the ultimate cloud database for tomorrow's applications.
 
@@ -17,6 +17,12 @@ This chart facilitates the deployment of [SurrealDB](https://surrealdb.com/docs/
 ## Usage
 
 Read the Kubernetes Deployment guides in https://surrealdb.com/docs/deployment
+
+## SurrealDB versions
+
+The chart default `appVersion` tracks the latest SurrealDB **2.x** release. SurrealDB 3.x is supported by setting `image.tag` (for example `v3.2.0`). The 2.x and 3.x on-disk formats are incompatible, so do not upgrade an existing PersistentVolume by only changing the image tag. Follow the official [2.x to 3.x migration guide](https://surrealdb.com/docs/build/migrating/from-old-surrealdb-versions/2x-to-3x).
+
+A chart **minor** version bump means either a new chart feature or a SurrealDB minor bump in `appVersion` (the default image when `image.tag` is empty). Pinning `image.tag` is highly recommended so chart upgrades do not change the SurrealDB image unexpectedly.
 
 ## Overrides
 

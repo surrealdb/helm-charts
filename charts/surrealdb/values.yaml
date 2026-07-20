@@ -19,7 +19,12 @@ image:
   # image.pullPolicy -- Image pull policy for SurrealDB
   # @section -- Image parameters
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  # Overrides the image tag whose default is the chart appVersion (currently SurrealDB 2.6.x).
+  # Chart minor bumps mean a new chart feature and/or a SurrealDB minor bump in appVersion.
+  # Pinning image.tag is highly recommended so chart upgrades do not change the image unexpectedly.
+  # To run SurrealDB 3.x, set image.tag (e.g. v3.2.0). Do not treat a 2.x → 3.x image bump as an
+  # in-place datastore upgrade; follow the official migration guide:
+  # https://surrealdb.com/docs/build/migrating/from-old-surrealdb-versions/2x-to-3x
   # image.tag -- Tag to use for SurrealDB
   # @default -- `""` (defaults to chart appVersion)
   # @section -- Image parameters
@@ -57,11 +62,11 @@ surrealdb:
   # initial_pass: ""
   # -- Enable unauthenticated access
   # Warning: Enabling it will allow any unauthenticated user to access SurrealDB!
-  # Authentication is enabled by default in 2.x. This value replaces the depreacted "auth" value.
+  # Authentication is enabled by default in SurrealDB 2.x and 3.x. This value replaces the deprecated "auth" value.
   # unauthenticated: false
   # -- DEPRECATED: Enable authentication
-  # This value has been deprecated in 2.x but is kept for backward compatibility.
-  # The "unauthenticated" value should now be used instead, which will be converted in 1.x deployments.
+  # This value has been deprecated since SurrealDB 2.x but is kept for backward compatibility.
+  # Prefer "unauthenticated" instead; the chart still emits both SURREAL_AUTH and SURREAL_UNAUTHENTICATED.
   # auth: true
 
   # surrealdb.port -- SurrealDB container port

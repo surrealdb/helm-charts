@@ -123,6 +123,11 @@ jobs:
   e2e-test:
     name: e2e-test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        surrealdb:
+          - v2.6.5
+          - v3.2.0
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -148,6 +153,8 @@ jobs:
       - name: Run e2e test
         # The timeout is explicitly set to clarify that we intend it to be short enough
         # and not uncontrollably getting longer.
+        env:
+          SURREALDB_IMAGE_TAG: ${{ matrix.surrealdb }}
         run: go test -v ./e2e/... -timeout 5m
 
   install-chart:
@@ -194,6 +201,7 @@ jobs:
       - lint-docs
       - validate-manifests
       - install-chart
+      - e2e-test
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -221,4 +229,9 @@ jobs:
         if: |
           needs.install-chart.result == 'failure' ||
           needs.install-chart.result == 'cancelled'
+        run: exit 1
+      - name: Fail for failed or cancelled e2e-test
+        if: |
+          needs.e2e-test.result == 'failure' ||
+          needs.e2e-test.result == 'cancelled'
         run: exit 1
